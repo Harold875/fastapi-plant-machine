@@ -16,7 +16,13 @@ class Plant(Base):
     location: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
-     
+    machines: Mapped[list["Machine"]] = relationship(back_populates="plant")
+    
+    def __repr__(self) -> str:
+        return f"Plant(id={self.id!r}, name={self.name!r})"
+
+
+
 class Status(enum.Enum):
     OPERATIONAL = "operational"
     MAINTENANCE = "maintenance"
@@ -33,3 +39,8 @@ class Machine(Base):
     status: Mapped[Status]
     plant_id: Mapped[int] = mapped_column(ForeignKey("plant.id"))
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    
+    plant: Mapped["Plant"] = relationship(back_populates="machines")
+    
+    def __repr__(self) -> str:
+        return f"Machine(id={self.id!r}, name={self.name!r}, type={self.type}, status={self.status})"
