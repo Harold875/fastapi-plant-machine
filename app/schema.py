@@ -28,3 +28,6 @@ class MachinePublic(MachineBase):
 class MachinePatch(BaseModel):
     status: Status
 
+
+class PlantDetail(PlantPublic):
+    machines: list[MachinePublic]
