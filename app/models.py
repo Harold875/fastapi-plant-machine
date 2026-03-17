@@ -17,6 +17,10 @@ class Plant(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
 
     machines: Mapped[list["Machine"]] = relationship(back_populates="plant")
+
+    @property
+    def total_machines(self):
+        return len(self.machines)
     
     def __repr__(self) -> str:
         return f"Plant(id={self.id!r}, name={self.name!r})"

@@ -11,6 +11,7 @@ class PlantBase(BaseModel):
 class PlantPublic(PlantBase):
     id: int
     created_at: datetime
+    total_machines: int
 
 
 class MachineBase(BaseModel):

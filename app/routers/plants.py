@@ -3,6 +3,7 @@
 # GET /plants/{id} Detalle de planta con sus máquinas
 from fastapi import APIRouter, HTTPException
 from sqlalchemy import select
+from sqlalchemy.orm import selectinload
 from app.deps import SessionDB
 from app.models import Plant
 from app.schema import PlantBase, PlantPublic
@@ -15,8 +16,12 @@ router = APIRouter(
 
 @router.get("/plants")
 async def get_all_plants(session: SessionDB) -> list[PlantPublic]:
-    users = session.scalars(select(Plant)).all()
-    return users
+    stmt = (
+        select(Plant)
+        .options(selectinload(Plant.machines))
+    )
+    plants = session.scalars(stmt).all()
+    return plants
 
 @router.get("/plants/{id}")
 async def get_one_plant(session: SessionDB, id: int):
