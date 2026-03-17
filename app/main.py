@@ -6,6 +6,7 @@ from typing import Annotated
 from fastapi import Depends
 from app.routers import plants
 from app.routers import machines
+from app.deps import validate_apikey
 
 
 @asynccontextmanager
@@ -17,9 +18,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(plants.router)
-app.include_router(machines.router)
-
+app.include_router(plants.router, dependencies=[Depends(validate_apikey)])
+app.include_router(machines.router, dependencies=[Depends(validate_apikey)])
 
 
 
