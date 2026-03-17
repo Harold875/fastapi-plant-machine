@@ -18,10 +18,10 @@ async def get_all_plants(session: SessionDB) -> list[PlantPublic]:
     users = session.scalars(select(Plant)).all()
     return users
 
-# @router.get("/plants/{id}")
-# async def get_one_plant(session: SessionDB, id: int):
-#     users = session.scalars(select(Plant).where).first()
-#     return users
+@router.get("/plants/{id}")
+async def get_one_plant(session: SessionDB, id: int):
+    users = session.scalars(select(Plant).where(Plant.id == id)).one()
+    return users
 
 
 @router.post("/plants")
